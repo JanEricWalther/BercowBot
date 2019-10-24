@@ -1,5 +1,12 @@
 # BercowBot
  Screams Ordah
-## Set Up
-* Download all the node modules
-* set Token (used to log in the bot) & Command-Prefix (e.g. '!') in a botconfig.json file
+ 
+### Project setup
+```
+npm install
+```
+
+### Create botconfig.json file
+* set Bot-Token (used to log in the bot) & Command-Prefix (e.g. '!')
+
+https://discordapp.com/developers/applications/
