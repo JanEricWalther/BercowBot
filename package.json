@@ -1,0 +1,16 @@
+{
+  "name": "bercowbot",
+  "version": "1.0.0",
+  "description": "A Bot that reminds the people of the channel to remain orderly.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "ffmpeg-binaries": "^4.0.0",
+    "opusscript": "0.0.7"
+  }
+}
