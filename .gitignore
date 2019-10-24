@@ -1,6 +1,8 @@
 #botconfig  discord token
 botconfig.json
 
+start.bat
+
 # Logs
 logs
 *.log
