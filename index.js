@@ -71,6 +71,6 @@ function sendSoundFile(arrayIndex, message) {
       })
       .catch(console.log);
   } else {
-    message.reply('You need to join a voice channel to put to order first!');
+    message.reply('You need to join a voice channel that is in need for some ORDAH!');
   }
 }
