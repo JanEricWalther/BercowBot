@@ -1,8 +1,9 @@
+// https://discord.js.org/#/docs/main/stable/general/welcome
+
 const botconfig = require('./botconfig.json');
 const Discord = require("discord.js");
 
 const bot = new Discord.Client({disableEveryone: true});
-// const sounds = 'E:\\_DiscordBot\\BercowBot\\sounds\\';   // absolute path
 const sounds = './sounds/';
 // Array of Sound Files to randomly choose from 
 const soundFiles = ['ordah.mp3', 'Zen.mp3','ordah2.mp3','ordah3.mp3','ordah4.mp3','iKnowWhatImDoing.mp3','peopleShouting.mp3','theArtOfPatience.mp3','FlyingFlamingo.mp3'];
@@ -13,7 +14,7 @@ bot.on("ready", async() => {
   bot.user.setActivity('Order in the House of Commons');
 });
 
-// TODO: automatically send Soundfile, when Channel is too loud / to many people are speaking at the same time
+// TODO: automatically send Soundfile, when Channel is too loud / to many people are speaking at the same time 
 
 // gets run when a message is sent
 bot.on("message", async message => {
