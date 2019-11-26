@@ -1,6 +1,7 @@
 // https://discord.js.org/#/docs/main/stable/general/welcome
 /* TODO: automatically send Soundfile, when Channel is too loud / to many people
-         are speaking at the same time 
+         are speaking at the same time
+   TODO: Handle response to command as exception, so there is no longer the need to pass the message into the playSound function
 */
 
 const botconfig = require('./botconfig.json');
@@ -9,10 +10,10 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 const sounds = './sounds/';
 
-let speakingMember = 0;
-
 // Array of Sound Files to randomly choose from 
-const soundFiles = ['ordah.mp3', 'Zen.mp3', 'ordah2.mp3', 'ordah3.mp3', 'ordah4.mp3', 'iKnowWhatImDoing.mp3', 'peopleShouting.mp3', 'theArtOfPatience.mp3', 'FlyingFlamingo.mp3'];
+const soundFiles = ['ordah.mp3', 'ordah5.mp3', 'ordah2.mp3', 'ordah3.mp3', 'ordah4.mp3', 'iKnowWhatImDoing.mp3', 'peopleShouting.mp3', 'theArtOfPatience.mp3'];
+
+let speakingMember = 0;
 
 // gets run when bot has joined the discord server 
 bot.on('ready', async () => {
@@ -21,7 +22,6 @@ bot.on('ready', async () => {
 });
 
 // ON SPEAKING
-
 bot.on('guildMemberSpeaking', (member, speaking) => {
 
   if (speaking) {
@@ -35,7 +35,7 @@ bot.on('guildMemberSpeaking', (member, speaking) => {
 // gets run when a message is sent
 bot.on('message', async message => {
 
-  // ignore message by the bot, in DMs, aswell as outside of the Server (Guild)
+  // ignore message by the bot, in DMs, as well as outside of the Server (Guild)
   if (message.author.bot) return;
   if (message.channel.type === 'dm') return;
   if (!message.guild) return;
@@ -51,19 +51,35 @@ bot.on('message', async message => {
 
   switch (command) {
     case `${prefix}order`:
-      sendSoundFile(Math.round(Math.random() * soundFiles.length - 1), message);
+      try {
+        sendOrderSound(message.member.voiceChannel);
+      } catch (err) {
+        await message.reply('Error: ' + err)
+      }
       break;
 
     case `${prefix}ordah`:
-      sendSoundFile(Math.round(Math.random() * soundFiles.length - 1), message);
+      try {
+        sendOrderSound(message.member.voiceChannel);
+      } catch (err) {
+        await message.reply('Error: ' + err)
+      }
       break;
 
     case `${prefix}zen`:
-      sendSoundFile(1, message);
+      try {
+        sendSoundFile('Zen.mp3', message.member.voiceChannel);
+      } catch (err) {
+        await message.reply('Error: ' + err);
+      }
       break;
 
     case `${prefix}flamingo`:
-      sendSoundFile(8, message);
+      try {
+        sendSoundFile('FlyingFlamingo.mp3', message.member.voiceChannel);
+      } catch (err) {
+        await message.reply('Error: ' + err);
+      }
       break;
 
     case `${prefix}botinfo`:
@@ -75,7 +91,7 @@ bot.on('message', async message => {
       break;
 
     case `${prefix}join`:
-      message.member.voiceChannel.join();
+      await message.member.voiceChannel.join();
       break;
 
     case `${prefix}leave`:
@@ -110,31 +126,37 @@ function commands(message) {
     .setColor('#eeeeee')    // stripe on the right
     .addField(`${botconfig.prefix}order / ${botconfig.prefix}ordah`, 'For when you are in need of some Ordah.')
     .addField(`${botconfig.prefix}zen`, 'For when you need some Zen in your life.')
-    .addField(`${botconfig.prefix}flamingo`, `For when you don't give a flying Falmingo.`)
+    .addField(`${botconfig.prefix}flamingo`, `For when you don't give a flying Flamingo.`)
     .addField(`${botconfig.prefix}botinfo`, `Bot Info`);
 
   return message.channel.send(botEmbed);
 }
 
-// Sends certain soundfile of the soundArray in the Channel of a user that called the bot 
-function sendSoundFile(arrayIndex, message) {
-  if (message.member.voiceChannel) {
+// send a random Order Sound File
+function sendOrderSound(voiceChannel) {
+  let randomArrayIndex = Math.round(Math.random() * soundFiles.length - 1);
+  sendSoundFile(soundFiles[randomArrayIndex], voiceChannel);
+}
 
-    // join the Voicechannel of the member who send the command
-    message.member.voiceChannel.join()
+// Sends certain Sound File in the Channel of a user that called the bot
+function sendSoundFile(soundPath, voiceChannel) {
+  if (!voiceChannel) {
+    throw 'You need to join a Voice Channel.';
+  }
+  else {
+    // join the Voice Channel of the member who send the command
+    voiceChannel.join()
       .then(connection => {
 
-        console.log(`playing ${soundFiles[arrayIndex]}\n`);
-        // set up dispatcher, that plays the soundfile 
-        const dispatcher = connection.playFile(sounds.concat(soundFiles[arrayIndex]));
+        console.log(`playing ${soundPath}\n`);
+        // set up dispatcher, that plays the Sound File
+        const dispatcher = connection.playFile(sounds.concat(soundPath));
 
-        // leave, after the soundfile has ended
+        // leave, after the Sound File has ended
         dispatcher.on('end', () => {
-          message.member.voiceChannel.leave();
+          voiceChannel.leave();
         })
       })
       .catch(console.log);
-  } else {
-    message.reply('You need to join a voice channel that is in need of some ORDAH!');
   }
 }

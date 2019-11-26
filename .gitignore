@@ -2,6 +2,10 @@
 botconfig.json
 
 start.bat
+requirements.md
+
+# web storm
+.idea/
 
 # Logs
 logs
