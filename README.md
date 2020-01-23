@@ -1,5 +1,5 @@
 # BercowBot
- Screams Ordah.
+John guarantees Order in the Voice Channel of Commons. 
  
  I'm using the [Discord.js Library](https://discord.js.org/#/docs/main/stable/general/welcome).
  
