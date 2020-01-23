@@ -10,5 +10,5 @@ npm install
 
 ### Create botconfig.json file
 * rename `example.botconfig.json` to `botconfig.json` 
-* set token (used to log in the bot to your [Discord App/Bot Token](https://discordapp.com/developers/applications/))
+* set token (used to log in with your [Discord App/Bot Token](https://discordapp.com/developers/applications/))
 * set Command-Prefix (e.g. '!')
