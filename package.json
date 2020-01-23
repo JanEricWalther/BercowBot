@@ -9,8 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bufferutil": "^4.0.1",
     "discord.js": "^11.5.1",
-    "ffmpeg-binaries": "^4.0.0",
-    "opusscript": "0.0.7"
+    "erlpack": "github:hammerandchisel/erlpack",
+    "ffmpeg": "0.0.4"
   }
 }
